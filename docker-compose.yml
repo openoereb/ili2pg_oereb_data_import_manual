@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  
+  db:
+    image: postgis/postgis:12-3.1-alpine
+    environment:
+      POSTGRES_DB: federal_themes
+      POSTGRES_USER: federal_themes
+      POSTGRES_PASSWORD: federal_themes
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - type: volume
+        source: data
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: ./scripts
+        target: /scripts
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    volumes:
+      - type: bind
+        source: ./servers.json
+        target: /pgadmin4/servers.json
+
+volumes:
+  data:
+

@@ -7,16 +7,16 @@ Manual/tools for the table structur creation in PostGIS and for the oereb data i
 
 [Website](https://www.interlis.ch/downloads/ili2db) \
 [Manual](https://github.com/claeis/ili2db/blob/master/docs/ili2db.rst) \
-[Download](https://downloads.interlis.ch/ili2pg/) \
+[Download](https://downloads.interlis.ch/ili2pg/)
 
 ###  Documents
 
 - Rahmenmodell für den ÖREB-Kataster – Erläuterungen für die Umsetzung [PDF](Documents/Rahmenmodell-de.pdf)
 - Documents on [https://models.geo.admin.ch/V_D/OeREB/](https://models.geo.admin.ch/V_D/OeREB/)
 
-## Database import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
+## Import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
 
-### Generation of the database structure bases on OeREBKRMtrsfr_V2_0
+### Import schema in database based on OeREBKRMtrsfr_V2_0
 
 **Selected options for ili2pg**
 
@@ -24,12 +24,12 @@ Manual/tools for the table structur creation in PostGIS and for the oereb data i
 ili2pg=ili2pg-4.5.0.jar
 
 java -jar $ili2pg --schemaimport \
-                  --dbhost var_dbhost \
-                  --dbport var_dbport  \
-                  --dbdatabase var_dbdatabase \
-                  --dbusr var_dbusr \
-                  --dbpwd var_dbpwd \
-                  --dbschema var_dbschema \            # var_dbschema e.g. "motorways_project_planing_zones"
+                  --dbhost $PGHOST \
+                  --dbport $PGPORT  \
+                  --dbdatabase $PGDB \
+                  --dbusr $PGUSER \
+                  --dbpwd $PGPASSWORD \
+                  --dbschema $SCHEMA_NAME \            # e.g. "motorways_project_planing_zones"
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
                   --createFk \                         # creates foreign keys
@@ -61,12 +61,12 @@ Options that are **not** used:
 
 ```
 java -jar $ili2pg --import \
-                  --dbhost var_dbhost \
-                  --dbport var_dbport  \
-                  --dbdatabase var_dbdatabase \
-                  --dbusr var_dbusr \
-                  --dbpwd var_dbpwd \
-                  --dbschema var_dbschema \            # var_dbschema e.g. "motorways_project_planing_zones"
+                  --dbhost $PGHOST \
+                  --dbport $PGPORT  \
+                  --dbdatabase $PGDB \
+                  --dbusr $PGUSER \
+                  --dbpwd $PGPASSWORD \
+                  --dbschema $SCHEMA_NAME \            # e.g. "motorways_project_planing_zones"
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
                   --dataset var_dataset \              # dataset name
