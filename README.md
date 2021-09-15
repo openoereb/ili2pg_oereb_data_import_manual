@@ -1,23 +1,24 @@
 # ili2pg_oereb_data_import_manual
 Manual/tools for the table structur creation in PostGIS and for the oereb data import using ili2pg.
 
-## Required software
+## Required software / relevant documents
 
 ### ili2pg
 
-1. Information about the ili2db software tools:
-   - [ili2db main page](https://www.interlis.ch/downloads/ili2db)
-   - [ili2db manual](https://github.com/claeis/ili2db/blob/master/docs/ili2db.rst)
-2. Download: [Versions of ili2pg](https://downloads.interlis.ch/ili2pg/)
+[Website](https://www.interlis.ch/downloads/ili2db) \
+[Manual](https://github.com/claeis/ili2db/blob/master/docs/ili2db.rst) \
+[Download](https://downloads.interlis.ch/ili2pg/) \
 
-##  Relevant Documents
+###  Documents
 
-- [Rahmenmodell für den ÖREB-Kataster – Erläuterungen für die Umsetzung](Documents/Rahmenmodell-de.pdf)
-- Documents on [Model Repository](https://models.geo.admin.ch/V_D/OeREB/)
+- Rahmenmodell für den ÖREB-Kataster – Erläuterungen für die Umsetzung [PDF](Documents/Rahmenmodell-de.pdf)
+- Documents on [https://models.geo.admin.ch/V_D/OeREB/](https://models.geo.admin.ch/V_D/OeREB/)
 
 ## Database import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
 
 ### Generation of the database structure bases on OeREBKRMtrsfr_V2_0
+
+**Selected options for ili2pg**
 
 ```
 ili2pg=ili2pg-4.5.0.jar
@@ -48,13 +49,15 @@ java -jar $ili2pg --schemaimport \
 
 Options that are **not** used:
 ```
---strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Surface
+--strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Line
 --coalesceMultiSurface    # surface in data model: GeometryCHLV95_V1.Surface
 --coalesceMultiLine       # line in data model: GeometryCHLV95_V1.Line
 --coalesceMultiPoint      # point in data model: GeometryCHLV95_V1.Coord2
 ```
 
 ### Data import
+
+**Selected options for ili2pg**
 
 ```
 java -jar $ili2pg --import \
