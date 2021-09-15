@@ -97,7 +97,7 @@ java -jar $ili2pg --import \
                   interlis.xtf
 ```
 
-## Proposed data model for the office responsible for the cadastre
+## Import model proposed for the office responsible for the cadastre
 
 ### Import model OeREBKRMkvs_V2_0 into database schema
 
