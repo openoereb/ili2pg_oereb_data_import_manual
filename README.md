@@ -1,23 +1,23 @@
 # ili2pg_oereb_data_import_manual
 Manual/tools for the table structur creation in PostGIS and for the oereb data import using ili2pg.
 
-# Required software
+## Required software
 
-## ili2pg
+### ili2pg
 
 1. Information about the ili2db software tools:
    - [ili2db main page](https://www.interlis.ch/downloads/ili2db)
    - [ili2db manual](https://github.com/claeis/ili2db/blob/master/docs/ili2db.rst)
 2. Download: [Versions of ili2pg](https://downloads.interlis.ch/ili2pg/)
 
-#  Relevant Documents
+##  Relevant Documents
 
 - [Rahmenmodell für den ÖREB-Kataster – Erläuterungen für die Umsetzung](Documents/Rahmenmodell-de.pdf)
 - Documents on [Model Repository](https://models.geo.admin.ch/V_D/OeREB/)
 
-# Database import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
+## Database import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
 
-## Generation of tables structure in the database
+### Generation of the database structure bases on OeREBKRMtrsfr_V2_0
 
 ```
 ili2pg=ili2pg-4.5.0.jar
@@ -46,13 +46,15 @@ java -jar $ili2pg --schemaimport \
                   --models OeREBKRMtrsfr_V2_0          # name of the model
 ```
 
-Options that are ** not ** used:
-- ``` --strokeArcs ```              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Surface
-- ``` --coalesceMultiSurface ```    # surface in data model: GeometryCHLV95_V1.Surface
-- ``` --coalesceMultiLine ```       # line in data model: GeometryCHLV95_V1.Line
-- ``` --coalesceMultiPoint ```      # point in data model: GeometryCHLV95_V1.Coord2
+Options that are **not** used:
+```
+--strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Surface
+--coalesceMultiSurface    # surface in data model: GeometryCHLV95_V1.Surface
+--coalesceMultiLine       # line in data model: GeometryCHLV95_V1.Line
+--coalesceMultiPoint      # point in data model: GeometryCHLV95_V1.Coord2
+```
 
-## Data import
+### Data import
 
 ```
 java -jar $ili2pg --import \
@@ -65,5 +67,5 @@ java -jar $ili2pg --import \
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
                   --dataset var_dataset \              # dataset name
-                  --replace var_xtf_file               # data in the db are replaced by means of a dataset name
+                  --replace var_xtf_file               # data in the database is replaced by data of the xtf-file by means of the dataset name
 ```
