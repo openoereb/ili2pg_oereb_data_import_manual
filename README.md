@@ -12,11 +12,11 @@ Manual/tools for the table structur creation in PostGIS and for the oereb data i
 ###  Documents
 
 - Rahmenmodell für den ÖREB-Kataster – Erläuterungen für die Umsetzung [PDF](Documents/Rahmenmodell-de.pdf)
-- Documents on [https://models.geo.admin.ch/V_D/OeREB/](https://models.geo.admin.ch/V_D/OeREB/)
+- Models/xml-files on [https://models.geo.admin.ch/V_D/OeREB/](https://models.geo.admin.ch/V_D/OeREB/)
 
-## Import of PLR data from the transfer structure (OeREBKRMtrsfr_V2_0)
+## Import of PLR data provided in the transfer structure (OeREBKRMtrsfr_V2_0)
 
-### Import schema in database based on OeREBKRMtrsfr_V2_0
+### Import model OeREBKRMtrsfr_V2_0 into database schema
 
 **Selected options for ili2pg**
 
@@ -55,6 +55,26 @@ Options that are **not** used:
 --coalesceMultiPoint      # point in data model: GeometryCHLV95_V1.Coord2
 ```
 
+### XML import
+
+- OeREBKRM_V2_0_Gesetze_20210414.xml must be imported prior to xtf-file for federal topics due to foreign key constraints.
+
+**Selected options for ili2pg**
+
+```
+java -jar $illi2pg --import \
+                   --dbhost $PGHOST \
+                   --dbport $PGPORT  \
+                   --dbdatabase $PGDB \
+                   --dbusr $PGUSER \
+                   --dbpwd $PGPASSWORD \
+                   --dbschema $SCHEMA_NAME \
+                   --defaultSrsAuth EPSG \
+                   --defaultSrsCode 2056 \
+                   --dataset $law_xml_file \
+                   OeREBKRM_V2_0_Gesetze_20210414.xml
+```
+
 ### Data import
 
 **Selected options for ili2pg**
@@ -70,5 +90,5 @@ java -jar $ili2pg --import \
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
                   --dataset var_dataset \              # dataset name
-                  --replace var_xtf_file               # data in the database is replaced by data of the xtf-file by means of the dataset name
+                  interlis.xtf
 ```
