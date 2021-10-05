@@ -103,7 +103,7 @@ java -jar $ili2pg --import \
                   interlis.xtf
 ```
 
-### Additional tables required for pyramid_oereb
+### Additional tables required for pyramid_oereb which are not part of OeREBKRMtrsfr_V2_0
 
 **add_tables_to_trsf_structure.sql**
 
