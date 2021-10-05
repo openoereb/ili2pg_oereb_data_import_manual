@@ -83,6 +83,7 @@ java -jar $illi2pg --schemaimport \
                    --createUnique \
                    --expandMultilingual \
                    --expandLocalised \
+                   --strokeArcs \
                    --models $model_OeREBKRMtrsfr
 
 # delete data from datasets (if existing)
@@ -117,6 +118,7 @@ java -jar $illi2pg --import \
                    --dbschema $SCHEMA_NAME \
                    --defaultSrsAuth EPSG \
                    --defaultSrsCode 2056 \
+                   --strokeArcs \
                    --dataset $law_xml_file \
                    $law_xml_file_full
                    
@@ -132,6 +134,7 @@ java -jar $illi2pg --import \
                    --dbschema $SCHEMA_NAME \
                    --defaultSrsAuth EPSG \
                    --defaultSrsCode 2056 \
+                   --strokeArcs \
                    --dataset $SCHEMA_NAME \
                    $xtf_file
 

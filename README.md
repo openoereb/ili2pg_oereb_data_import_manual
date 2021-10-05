@@ -44,15 +44,20 @@ java -jar $ili2pg --schemaimport \
                   --createUnique \                     # creates unique constraints in the db for Interlis unique constraints
                   --expandMultilingual \               # LocalisationCH_V1.MultilingualText/MText --> additional columns in table
                   --expandLocalised \                  # LocalisationCH_V1.LocalisedText/MText --> additional columns in table
+                  --strokeArcs \                       # Segmentation of arcs
                   --models OeREBKRMtrsfr_V2_0          # name of the model
 ```
 
 Options that are **not** used:
 ```
---strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Line
 --coalesceMultiSurface    # surface in data model: GeometryCHLV95_V1.Surface
 --coalesceMultiLine       # line in data model: GeometryCHLV95_V1.Line
 --coalesceMultiPoint      # point in data model: GeometryCHLV95_V1.Coord2
+```
+
+Options that are used bacause of pyramid_oereb:
+```
+--strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Line, but shapely 1.6.4 cannot cope with arcs
 ```
 
 ### XML import
@@ -93,6 +98,7 @@ java -jar $ili2pg --import \
                   --dbschema $SCHEMA_NAME \            # e.g. "motorways_project_planing_zones"
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
+                  --strokeArcs \
                   --dataset var_dataset \              # dataset name
                   interlis.xtf
 ```
