@@ -148,7 +148,7 @@ ALTER TABLE :schema.verfuegbarkeit
     OWNER to :user;
 ```
 
-**update_availability.sql ***
+**update_availability.sql**
 
 ```
 INSERT INTO :schema.verfuegbarkeit (bfsnr, verfuegbar) VALUES
