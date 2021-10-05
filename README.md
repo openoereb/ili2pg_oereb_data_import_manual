@@ -103,6 +103,67 @@ java -jar $ili2pg --import \
                   interlis.xtf
 ```
 
+### Additional tables required for pyramid_oereb
+
+**add_tables_to_trsf_structure.sql**
+
+```
+/* TABLE datenintegration*/
+
+CREATE TABLE IF NOT EXISTS :schema.datenintegration
+(
+    t_id bigint NOT NULL,
+    datum timestamp without time zone NOT NULL,
+    amt bigint NOT NULL,
+    checksum character varying COLLATE pg_catalog."default",
+    CONSTRAINT datenintegration_pkey PRIMARY KEY (t_id),
+    CONSTRAINT datenintegration_amt_fkey FOREIGN KEY (amt)
+        REFERENCES :schema.amt (t_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE :schema.datenintegration
+    OWNER to :user;
+
+
+/* TABLE verfuegbarkeit */
+
+CREATE TABLE IF NOT EXISTS :schema.verfuegbarkeit
+(
+    bfsnr int NOT NULL,
+    verfuegbar boolean NOT NULL,
+    CONSTRAINT verfuegbarkeit_pkey PRIMARY KEY (bfsnr)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE :schema.verfuegbarkeit
+    OWNER to :user;
+```
+
+**update_availability.sql ***
+
+```
+INSERT INTO :schema.verfuegbarkeit (bfsnr, verfuegbar) VALUES
+(2854, TRUE);
+```
+
+**psql**
+
+```
+psql -d $PGDB -U $PGUSER -v "usr=$PGUSER" -v "schema=$SCHEMA_NAME" -f add_tables_to_trsf_structure.sql
+psql -d $PGDB -U $PGUSER -v "schema=$SCHEMA_NAME" -f update_availability.sql
+
+```
+
+
 ## Import model proposed for the office responsible for the cadastre
 
 ### Import model OeREBKRMkvs_V2_0 into database schema
