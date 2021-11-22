@@ -1,7 +1,7 @@
 # ili2pg_oereb_data_import_manual
-Manual/tools for the table structur creation in PostGIS and for the oereb data import using ili2pg.
+Manual for using ili2pg to import OEREB data provided in the transfer structure (OeREBKRMtrsfr_V2_0) to a PostGIS database.
 
-## Required software / relevant documents
+The model OeREBKRMkvs_V2_0 is not supported by pyramid_oereb. Consult the pyramid_oereb [main-schema](https://github.com/openoereb/pyramid_oereb/blob/master/pyramid_oereb/standard/models/main.py) regarding the information that is required for running the application.
 
 ### ili2pg
 
@@ -44,6 +44,7 @@ java -jar $ili2pg --schemaimport \
                   --createUnique \                     # creates unique constraints in the db for Interlis unique constraints
                   --expandMultilingual \               # LocalisationCH_V1.MultilingualText/MText --> additional columns in table
                   --expandLocalised \                  # LocalisationCH_V1.LocalisedText/MText --> additional columns in table
+                  --setupPgExt \                       # PostGIS: erstellt postgreql Erweiterungen 'uuid-ossp' und 'postgis' (falls noch nicht vorhanden)
                   --strokeArcs \                       # Segmentation of arcs
                   --models OeREBKRMtrsfr_V2_0          # name of the model
 ```
@@ -60,9 +61,15 @@ Options that are used bacause of pyramid_oereb:
 --strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Line, but shapely 1.6.4 cannot cope with arcs
 ```
 
+Options that might be relevant dependent on individual settings:
+```
+--proxy host              # Name of host that is used for access to model repositories.
+--proxyPort port          # Port of proxy that should be used.
+```
+
 ### XML import
 
-- OeREBKRM_V2_0_Gesetze_20210414.xml must be imported prior to xtf-file for federal topics due to foreign key constraints.
+- OeREBKRM_V2_0_Gesetze_YYYYMMDD.xml - if available in data.zip - must be imported prior to xtf-file for federal topics due to foreign key constraints.
 
 **Selected options for ili2pg**
 
@@ -76,10 +83,8 @@ java -jar $illi2pg --import \
                    --dbusr $PGUSER \
                    --dbpwd $PGPASSWORD \
                    --dbschema $SCHEMA_NAME \
-                   --defaultSrsAuth EPSG \
-                   --defaultSrsCode 2056 \
                    --dataset $law_xml_file \
-                   OeREBKRM_V2_0_Gesetze_20210414.xml
+                   OeREBKRM_V2_0_Gesetze_YYYYMMDD.xml
 ```
 
 ### Data import
@@ -99,7 +104,7 @@ java -jar $ili2pg --import \
                   --defaultSrsAuth EPSG \
                   --defaultSrsCode 2056 \
                   --strokeArcs \
-                  --dataset var_dataset \              # dataset name
+                  --dataset $var_dataset \             # dataset name
                   interlis.xtf
 ```
 
@@ -162,62 +167,3 @@ psql -d $PGDB -U $PGUSER -v "usr=$PGUSER" -v "schema=$SCHEMA_NAME" -f add_tables
 psql -d $PGDB -U $PGUSER -v "schema=$SCHEMA_NAME" -f update_availability.sql
 
 ```
-
-
-## Import model proposed for the office responsible for the cadastre
-
-### Import model OeREBKRMkvs_V2_0 into database schema
-
-**Selected options for ili2pg**
-
-```
-ili2pg=ili2pg-4.6.0.jar
-
-java -jar $ili2pg --schemaimport \
-                  --dbhost $PGHOST \
-                  --dbport $PGPORT  \
-                  --dbdatabase $PGDB \
-                  --dbusr $PGUSER \
-                  --dbpwd $PGPASSWORD \
-                  --dbschema $SCHEMA_NAME \            # e.g. "pyramid_oereb_main"
-                  --defaultSrsAuth EPSG \
-                  --defaultSrsCode 2056 \
-                  --createFk \                         # creates foreign keys
-                  --createFkIdx \                      # creates index for foreign key columns
-                  --createGeomIdx \                    # creates index for every geometry column
-                  --createTidCol \                     # creates column t_ili_tid in every table
-                  --createBasketCol \                  # creates column t_basket in every table to identify basket
-                  --createDatasetCol \                 # creates column t_datasetname in every table to identify dataset
-                  --createTypeDiscriminator \          # creates column t_type in every table for the type discriminator 
-                  --createMetaInfo \                   # creates additional tables with information from the interlis model
-                  --createNumChecks \                  # creates constraints for numerical data types
-                  --createUnique \                     # creates unique constraints in the db for Interlis unique constraints
-                  --expandMultilingual \               # LocalisationCH_V1.MultilingualText/MText --> additional columns in table
-                  --expandLocalised \                  # LocalisationCH_V1.LocalisedText/MText --> additional columns in table
-                  --models OeREBKRMkvs_V2_0            # name of the model
-```
-
-### XML import
-
-Order of import (foreign key constraints):
-- OeREBKRM_V2_0_Gesetze_20210414.xml
-- OeREBKRM_V2_0_Themen_20210714.xml
-- OeREBKRM_V2_0_Texte_20210714.xml
-- OeREBKRM_V2_0_Logos_20210414.xml
-
-**Selected options for ili2pg**
-
-```
-ili2pg=ili2pg-4.6.0.jar
-
-java -jar $illi2pg --import \
-                   --dbhost $PGHOST \
-                   --dbport $PGPORT  \
-                   --dbdatabase $PGDB \
-                   --dbusr $PGUSER \
-                   --dbpwd $PGPASSWORD \
-                   --dbschema $SCHEMA_NAME \
-                   --defaultSrsAuth EPSG \
-                   --defaultSrsCode 2056 \
-                   --dataset OeREBKRM_V2_0_Gesetze_20210414.xml \   # dataset name
-                   OeREBKRM_V2_0_Gesetze_20210414.xml               # xml file name
