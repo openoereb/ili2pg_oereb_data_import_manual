@@ -55,7 +55,7 @@ Options that are **not** used:
 --coalesceMultiPoint      # point in data model: GeometryCHLV95_V1.Coord2
 ```
 
-Options that are used bacause of pyramid_oereb:
+Options that are used because of pyramid_oereb:
 ```
 --strokeArcs              # surface / line in data model: GeometryCHLV95_V1.Surface / GeometryCHLV95_V1.Line, but shapely 1.6.4 cannot cope with arcs
 ```
