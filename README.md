@@ -168,7 +168,7 @@ psql -d $PGDB -U $PGUSER -v "schema=$SCHEMA_NAME" -f update_availability.sql
 
 ```
 
-### Example configuration for a federal topic in pyramid_oereb.yml
+## Example configuration for a federal topic in pyramid_oereb.yml
 
 Note these differences compared to a standard theme:
 - class: pyramid_oereb.contrib.data_sources.interlis_2_3.sources.plr.DatabaseSource
