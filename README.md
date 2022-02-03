@@ -171,8 +171,8 @@ psql -d $PGDB -U $PGUSER -v "schema=$SCHEMA_NAME" -f update_availability.sql
 ### Example configuration for a federal topic in pyramid_oereb.yml
 
 Note these differences compared to a standard theme:
-- class:
-- model_factory:
+- class: pyramid_oereb.contrib.data_sources.interlis_2_3.sources.plr.DatabaseSource
+- model_factory: pyramid_oereb.contrib.data_sources.interlis_2_3.models.theme.model_factory_integer_pk
 
 In addition, have a look at https://github.com/openoereb/pyramid_oereb/blob/master/dev/config/pyramid_oereb.yml.mako. The file on the master branch can differ from the one in a specific beta version (e.g. hooks).
 
