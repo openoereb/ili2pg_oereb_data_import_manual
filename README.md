@@ -168,3 +168,64 @@ psql -d $PGDB -U $PGUSER -v "schema=$SCHEMA_NAME" -f update_availability.sql
 
 ```
 
+### Example configuration for a federal topic in pyramid_oereb.yml
+
+Note these differences compared to a standard theme:
+- class: pyramid_oereb.contrib.data_sources.interlis_2_3.sources.plr.DatabaseSource
+- model_factory: pyramid_oereb.contrib.data_sources.interlis_2_3.models.theme.model_factory_integer_pk
+
+In addition, have a look at https://github.com/openoereb/pyramid_oereb/blob/master/dev/config/pyramid_oereb.yml.mako. The file on the master branch can differ from the one in a specific beta version (e.g. hooks).
+
+
+```
+    - code: ch.BelasteteStandorteZivileFlugplaetze
+      geometry_type: GEOMETRYCOLLECTION
+      thresholds:
+        length:
+          limit: 1.0
+          unit: 'm'
+          precision: 2
+        area:
+          limit: 1.0
+          unit: 'm2'
+          precision: 2
+        percentage:
+          precision: 1
+      text:
+        de: Kataster der belasteten Standorte im Bereich der zivilen Flugplätze
+      language: de
+      federal: true
+      standard: false
+      view_service:
+        layer_index: 1
+        layer_opacity: 0.75
+      source:
+        class: pyramid_oereb.contrib.data_sources.interlis_2_3.sources.plr.DatabaseSource
+        params:
+          db_connection: ${data_base_connection}
+          model_factory: pyramid_oereb.contrib.data_sources.interlis_2_3.models.theme.model_factory_integer_pk
+          schema_name: contaminated_civil_aviation_sites
+      hooks:
+        get_symbol: pyramid_oereb.contrib.data_sources.standard.hook_methods.get_symbol
+        get_symbol_ref: pyramid_oereb.contrib.data_sources.standard.hook_methods.get_symbol_ref
+      law_status_lookup:
+        - data_code: inKraft
+          transfer_code: inKraft
+          extract_code: inForce
+        - data_code: AenderungMitVorwirkung
+          transfer_code: AenderungMitVorwirkung
+          extract_code: changeWithPreEffect
+        - data_code: AenderungOhneVorwirkung
+          transfer_code: AenderungOhneVorwirkung
+          extract_code: changeWithoutPreEffect
+      document_types_lookup:
+        - data_code: Rechtsvorschrift
+          transfer_code: Rechtsvorschrift
+          extract_code: LegalProvision
+        - data_code: GesetzlicheGrundlage
+          transfer_code: GesetzlicheGrundlage
+          extract_code: Law
+        - data_code: Hinweis
+          transfer_code: Hinweis
+          extract_code: Hint
+```
