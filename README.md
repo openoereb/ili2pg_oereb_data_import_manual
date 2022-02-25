@@ -69,7 +69,9 @@ Options that might be relevant dependent on individual settings:
 
 **Note concerning the validity of geometries**
 
-It is possible that geometries provided based on the Interlis model OeREBKRMtrsfr_V2_0 are not valid OGC geometries. This can potentially cause problems when processing the geometries in pyramid_oereb. It is recommended to check the imported data by a SQL statement similar to
+It is possible that geometries provided based on the Interlis model OeREBKRMtrsfr_V2_0 are not valid OGC geometries. This can potentially cause problems when the geometries are processed in pyramid_oereb. It is recommended to check the imported data by a SQL statement and, if possible, to resolve the issue.
+
+Example SQL statement:
 ```
 SELECT t_id FROM schema_name.geometrie WHERE ST_IsValid("punkt") IS False OR ST_IsValid("linie") IS False OR ST_IsValid("flaeche") IS False;
 ```
