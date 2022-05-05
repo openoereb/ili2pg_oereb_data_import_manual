@@ -217,7 +217,7 @@ In addition, have a look at https://github.com/openoereb/pyramid_oereb/blob/mast
           schema_name: contaminated_civil_aviation_sites
       hooks:
         get_symbol: pyramid_oereb.contrib.data_sources.interlis_2_3.hook_methods.get_symbol
-        get_symbol_ref: pyramid_oereb.contrib.data_sources.standard.hook_methods.get_symbol_ref
+        get_symbol_ref: pyramid_oereb.core.hook_methods.get_symbol_ref
       law_status_lookup:
         - data_code: inKraft
           transfer_code: inKraft
